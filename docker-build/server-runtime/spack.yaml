@@ -1,0 +1,5 @@
+# 参考 https://spack.readthedocs.io/en/latest/containers.html
+spack:
+  specs:
+  - intel-oneapi-mpi@2021.9.0
+  - openjdk@11.0.17_8

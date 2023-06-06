@@ -1,0 +1,6 @@
+# 参考 https://spack.readthedocs.io/en/latest/containers.html
+spack:
+  specs:
+  - intel-oneapi-compilers@2023.1.0
+  - intel-oneapi-mpi@2021.9.0
+  - python@3.10.10

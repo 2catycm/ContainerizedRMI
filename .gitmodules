@@ -1,0 +1,6 @@
+[submodule "Simple-MPI-Matmul"]
+	path = Simple-MPI-Matmul
+	url = https://github.com/2catycm/Simple-MPI-Matmul.git
+[submodule "SUSTechRMI"]
+	path = SUSTechRMI
+	url = https://github.com/2catycm/SUSTechRMI.git
