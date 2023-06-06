@@ -1,6 +1,8 @@
 # 启动compose
-compose:
-	
+compose-up: run-registry run-server run-client
+
+compose-down: 
+	docker stop registry server client || docker rm registry server client
 
 submodules: Simple-MPI-Matmul SUSTechRMI
 
@@ -10,7 +12,7 @@ Simple-MPI-Matmul:
 	git submodule update --init --recursive
 
 
-images: intel-compiler_mpi server
+images: intel-compiler_mpi server registry client sustech-rmi server-runtime
 
 # cd命令在Makefile中只在当前行生效, https://blog.csdn.net/weixin_38890593/article/details/89500105
 # https://myprogrammingnotes.com/entering-directory-leaving-directory-messages-make-output.html
@@ -28,20 +30,20 @@ server:
 # https://stackoverflow.com/questions/43460770/docker-windows-container-memory-limit
 # https://docs.docker.com/config/containers/resource_constraints/
 run-server:
-	docker run -it --rm --cpuset-cpus 0-31 --name server server:latest
+	docker run -itd --rm --cpuset-cpus 0-31 --name server --net=container:registry server:latest
 
 
 registry:
 	cd docker-build/registry/ && docker build -t registry:latest -f Dockerfile ../..
 
 run-registry:
-	docker run -it --rm --name registry -p 5000:5000 registry:latest
+	docker run -itd --rm --name registry --net=bridge registry:latest
 
 client:
 	cd docker-build/client/ && docker build -t client:latest -f Dockerfile ../..
 
 run-client:
-	docker run -it --rm --name client -p 5000:5000 client:latest
+	docker run -it --rm --name client --net=container:registry client:latest
 
 
 sustech-rmi:

@@ -7,18 +7,31 @@ services:
 
   client-container:
     image: client
+    networks:
+      - my-network
+      # - container:registry-container
     depends_on:
       - registry-container
+      - server-container
     
   registry-container:
     image: registry
-    ports: 
+    networks:
+      - my-network
+    # ports: 
       # - 11099:11020
-      - 11020:11099
+      # - 11020:11099
+  server-container:
+    image: server
+    networks:
+      - my-network
+      # - container:registry-container
+    depends_on:
+      - registry-container
 
 networks:
   my-network:
-    driver: bridge
+    driver: host
   # todo_list_app:
   #   image: todo_list
   #   ports:
