@@ -27,6 +27,19 @@ run-server:
 	docker run -it --rm --cpuset-cpus 0-31 --name server server:latest
 
 
+registry:
+	cd docker-build/registry/ && docker build -t registry:latest -f Dockerfile ../..
+
+run-registry:
+	docker run -it --rm --name registry -p 5000:5000 registry:latest
+
+client:
+	cd docker-build/client/ && docker build -t client:latest -f Dockerfile ../..
+
+run-client:
+	docker run -it --rm --name client -p 5000:5000 client:latest
+
+
 sustech-rmi:
 	cd SUSTechRMI/ && docker build -t sustech-rmi:latest -f Dockerfile .
 

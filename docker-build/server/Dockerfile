@@ -9,12 +9,22 @@ RUN cd /root/Simple-MPI-Matmul && /opt/intel/oneapi/intelpython/latest/bin/pytho
 
 FROM maven:3.6.3-jdk-11-slim@sha256:68ce1cd457891f48d1e137c7d6a4493f60843e84c9e2634e3df1d3d5b381d36c AS rmi-builder
 RUN mkdir /project
-COPY . /project
+COPY ../../SUSTechRMI /project
 WORKDIR /project
 RUN mvn clean package -DskipTests
 
 # 第三阶段 部署MPI程序和RMI服务端
 FROM server-runtime:latest 
+# 使用Dockerfile所在的操作系统的源作为镜像内的源
+# COPY /etc/apt/sources.list /etc/apt/sources.list
+# COPY ../sources.list /etc/apt/sources.list
+# https://blog.csdn.net/weixin_45067618/article/details/122234387 必须用add
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
+# ADD ../sources.list /etc/apt/
+# 如果不指定from，一定是context https://docs.docker.com/engine/reference/builder/#copy
+# context指定后，是相对于docekrfile的路径还是相对于context的路径？
+ADD docker-build/sources.list /etc/apt/
+
 RUN apt-get update && apt-get install -y dumb-init
 RUN mkdir /app
 # RUN addgroup --system javauser && adduser -S -s /bin/false -G javauser javauser
