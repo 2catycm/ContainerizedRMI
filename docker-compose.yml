@@ -1,0 +1,39 @@
+
+version: "3.9"
+services:
+  # server:
+  #   image: server
+  #   ports: 
+
+  client-container:
+    image: client
+    depends_on:
+      - registry-container
+    
+  registry-container:
+    image: registry
+    ports: 
+      # - 11099:11020
+      - 11020:11099
+
+networks:
+  my-network:
+    driver: bridge
+  # todo_list_app:
+  #   image: todo_list
+  #   ports:
+  #     - 4000:3000
+  #   working_dir: /app
+    
+  #   environment:
+  #     MYSQL_HOST: mysql
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: secret
+  #     MYSQL_DB: todos
+  # mysql:
+  #   image: mysql:8.0
+  #   volumes:
+  #     - todo-mysql-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: secret
+  #     MYSQL_DATABASE: todos

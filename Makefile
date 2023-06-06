@@ -1,3 +1,7 @@
+# 启动compose
+compose:
+	
+
 submodules: Simple-MPI-Matmul SUSTechRMI
 
 SUSTechRMI:
